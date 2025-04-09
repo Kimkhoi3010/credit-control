@@ -8,5 +8,4 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.report_to_attach_id",
         string="Report to attach",
         readonly=False,
-        config_parameter="qr_report_id",
     )
