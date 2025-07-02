@@ -12,8 +12,13 @@ class IrActionsReport(models.Model):
     _inherit = "ir.actions.report"
 
     def _render_qweb_pdf(self, report_ref, res_ids=None, data=None):
-        reports = ["account_credit_control.report_credit_control_summary"]
-        if report_ref in reports and self.env.user.company_id.report_to_attach_id:
+        report = self._get_report(report_ref)
+        report_xml_id = report.xml_id
+        reports = [
+            "account_credit_control.report_credit_control_summary",
+            "account_credit_control.credit_control_summary",
+        ]
+        if report_xml_id in reports and self.env.user.company_id.report_to_attach_id:
             io_list = []
             for cred_ctr in self.env["credit.control.communication"].browse(res_ids):
                 cred_ctr_pdf, _ = super()._render_qweb_pdf(
